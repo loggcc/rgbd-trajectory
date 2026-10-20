@@ -1,0 +1,12 @@
+# Python environments, caches and local editor files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv*/
+venv/
+.idea/
+.vscode/
+.DS_Store
+
+# New experiments; the original results/ and all data/ are intentionally included.
+/runs/

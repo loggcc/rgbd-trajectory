@@ -1,0 +1,6 @@
+# Versions of the libraries used for the original estimation run (Python 3.12).
+# Use only the contrib OpenCV distribution in a fresh environment.
+numpy==2.2.6
+scipy==1.16.3
+matplotlib==3.10.8
+opencv-contrib-python==4.10.0.84

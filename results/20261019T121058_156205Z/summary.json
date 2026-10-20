@@ -1,0 +1,382 @@
+{
+  "recording": "/home/ariel/realsense_recordings/20261019T121058_156205Z",
+  "pose_convention": "T_segment_depth_camera; meters; optical X-right Y-down Z-forward",
+  "warning": "Local odometry, no loop closure, no ground truth. Resets start unrelated local coordinates. Dynamic objects can bias estimates even if quality checks pass.",
+  "robot_base": "Camera poses only. A camera-to-base extrinsic is required for robot-base poses.",
+  "parameters": {
+    "recording": "20261019T121058_156205Z",
+    "methods": [
+      "rgbd-hybrid",
+      "rgbd-direct",
+      "rgbd-feature",
+      "depth-icp",
+      "depth-point"
+    ],
+    "output": "20261019T121058_156205Z/trajectory_results",
+    "stride": 1,
+    "downsample": 2,
+    "start": 0,
+    "max_frames": 0,
+    "sync_ms": 20,
+    "min_depth": 0.35,
+    "max_depth": 5.0,
+    "correspondence_distance": 0.1,
+    "min_overlap": 0.25,
+    "max_speed": 3.0,
+    "max_angular_speed": 240.0,
+    "reset_gap": 1.0,
+    "threads": 2
+  },
+  "association": {
+    "raw_depth_frames": 2582,
+    "raw_color_frames": 2578,
+    "synchronized_pairs": 2576,
+    "unmatched_depth_frames": 6,
+    "processed_frames": 2576,
+    "max_sync_difference_ms": 0.018688
+  },
+  "versions": {
+    "opencv": "4.10.0",
+    "numpy": "2.2.6"
+  },
+  "runtime_seconds": 302.09202870599984,
+  "methods": {
+    "rgbd-hybrid": {
+      "accepted_poses": 2574,
+      "rejected_frames": 2,
+      "rejection_reasons": {
+        "translation_limit": 2
+      },
+      "segments": [
+        {
+          "segment": 0,
+          "poses": 2574,
+          "start_s": 0.0,
+          "end_s": 85.887025152,
+          "path_length_m": 30.36876893069078,
+          "end_displacement_m": 2.9241908305466877
+        }
+      ],
+      "accepted_fraction": 0.9992236024844721
+    },
+    "rgbd-direct": {
+      "accepted_poses": 2542,
+      "rejected_frames": 34,
+      "rejection_reasons": {
+        "low_depth_overlap": 24,
+        "solver_failed": 4,
+        "translation_limit": 6
+      },
+      "segments": [
+        {
+          "segment": 0,
+          "poses": 2359,
+          "start_s": 0.0,
+          "end_s": 78.750009856,
+          "path_length_m": 34.71550830845949,
+          "end_displacement_m": 1.344830557767591
+        },
+        {
+          "segment": 1,
+          "poses": 183,
+          "start_s": 79.782889728,
+          "end_s": 85.887025152,
+          "path_length_m": 1.7633575044706962,
+          "end_displacement_m": 0.49000219180267524
+        }
+      ],
+      "accepted_fraction": 0.9868012422360248
+    },
+    "rgbd-feature": {
+      "accepted_poses": 1652,
+      "rejected_frames": 924,
+      "rejection_reasons": {
+        "solver_failed": 921,
+        "translation_limit": 3
+      },
+      "segments": [
+        {
+          "segment": 0,
+          "poses": 106,
+          "start_s": 0.0,
+          "end_s": 3.497875712,
+          "path_length_m": 2.185504945069134,
+          "end_displacement_m": 1.0243041066862872
+        },
+        {
+          "segment": 1,
+          "poses": 9,
+          "start_s": 4.527684096,
+          "end_s": 4.794179328,
+          "path_length_m": 0.1793032822239193,
+          "end_displacement_m": 0.13111056519372807
+        },
+        {
+          "segment": 2,
+          "poses": 345,
+          "start_s": 5.82703104,
+          "end_s": 17.339661056,
+          "path_length_m": 4.09610283362103,
+          "end_displacement_m": 1.3007871570055343
+        },
+        {
+          "segment": 3,
+          "poses": 309,
+          "start_s": 18.3424768,
+          "end_s": 28.647952384,
+          "path_length_m": 3.0754431682658785,
+          "end_displacement_m": 1.5184183935016
+        },
+        {
+          "segment": 4,
+          "poses": 5,
+          "start_s": 29.681001984,
+          "end_s": 29.814297088,
+          "path_length_m": 0.02087573629037339,
+          "end_displacement_m": 0.017320121281271326
+        },
+        {
+          "segment": 5,
+          "poses": 1,
+          "start_s": 30.847342336,
+          "end_s": 30.847342336,
+          "path_length_m": 0.0,
+          "end_displacement_m": 0.0
+        },
+        {
+          "segment": 6,
+          "poses": 1,
+          "start_s": 31.847960064,
+          "end_s": 31.847960064,
+          "path_length_m": 0.0,
+          "end_displacement_m": 0.0
+        },
+        {
+          "segment": 7,
+          "poses": 66,
+          "start_s": 32.848442368,
+          "end_s": 35.019486464,
+          "path_length_m": 0.7724540478896433,
+          "end_displacement_m": 0.18937315406817426
+        },
+        {
+          "segment": 8,
+          "poses": 23,
+          "start_s": 36.019649536,
+          "end_s": 36.75447936,
+          "path_length_m": 0.6368470075376338,
+          "end_displacement_m": 0.20799511700239617
+        },
+        {
+          "segment": 9,
+          "poses": 81,
+          "start_s": 37.756687616,
+          "end_s": 40.92639872,
+          "path_length_m": 1.51882213469498,
+          "end_displacement_m": 0.4378402039073136
+        },
+        {
+          "segment": 10,
+          "poses": 4,
+          "start_s": 41.926901248,
+          "end_s": 42.193374464,
+          "path_length_m": 0.11540958653694058,
+          "end_displacement_m": 0.05384662657871127
+        },
+        {
+          "segment": 11,
+          "poses": 6,
+          "start_s": 43.193986048,
+          "end_s": 43.360767232,
+          "path_length_m": 0.04845240986012531,
+          "end_displacement_m": 0.017482070277485894
+        },
+        {
+          "segment": 12,
+          "poses": 2,
+          "start_s": 44.393818112,
+          "end_s": 44.427179008,
+          "path_length_m": 0.0035419962247422864,
+          "end_displacement_m": 0.0035419962247422864
+        },
+        {
+          "segment": 13,
+          "poses": 10,
+          "start_s": 45.42726912,
+          "end_s": 45.727853056,
+          "path_length_m": 0.08550608534504277,
+          "end_displacement_m": 0.05128467649477787
+        },
+        {
+          "segment": 14,
+          "poses": 65,
+          "start_s": 46.72909696,
+          "end_s": 48.861997056,
+          "path_length_m": 0.35613745596666413,
+          "end_displacement_m": 0.07623998703065765
+        },
+        {
+          "segment": 15,
+          "poses": 42,
+          "start_s": 49.863275776,
+          "end_s": 51.232176384,
+          "path_length_m": 0.09729116807066138,
+          "end_displacement_m": 0.032868287921817924
+        },
+        {
+          "segment": 16,
+          "poses": 4,
+          "start_s": 52.265341184,
+          "end_s": 52.365243648,
+          "path_length_m": 0.0451316212794885,
+          "end_displacement_m": 0.02795500820132831
+        },
+        {
+          "segment": 17,
+          "poses": 3,
+          "start_s": 53.365932544,
+          "end_s": 53.432659968,
+          "path_length_m": 0.029333141484163862,
+          "end_displacement_m": 0.015261572160364462
+        },
+        {
+          "segment": 18,
+          "poses": 2,
+          "start_s": 54.4655104,
+          "end_s": 54.498818304,
+          "path_length_m": 0.01748107491082079,
+          "end_displacement_m": 0.01748107491082079
+        },
+        {
+          "segment": 19,
+          "poses": 5,
+          "start_s": 55.502061824,
+          "end_s": 55.635467776,
+          "path_length_m": 0.05996259171139541,
+          "end_displacement_m": 0.054809591366338284
+        },
+        {
+          "segment": 20,
+          "poses": 17,
+          "start_s": 56.668335104,
+          "end_s": 57.202121216,
+          "path_length_m": 0.5206664004361866,
+          "end_displacement_m": 0.2443939439290971
+        },
+        {
+          "segment": 21,
+          "poses": 39,
+          "start_s": 58.20221184,
+          "end_s": 59.901576448,
+          "path_length_m": 0.9663610990302133,
+          "end_displacement_m": 0.36912237183778995
+        },
+        {
+          "segment": 22,
+          "poses": 234,
+          "start_s": 60.90216832,
+          "end_s": 68.77788672,
+          "path_length_m": 1.2193595114643991,
+          "end_displacement_m": 0.19448871700072737
+        },
+        {
+          "segment": 23,
+          "poses": 114,
+          "start_s": 69.810976512,
+          "end_s": 73.615232,
+          "path_length_m": 1.2527183106484276,
+          "end_displacement_m": 0.36000601628860557
+        },
+        {
+          "segment": 24,
+          "poses": 2,
+          "start_s": 74.648096512,
+          "end_s": 74.681419008,
+          "path_length_m": 0.02713246840172815,
+          "end_displacement_m": 0.02713246840172815
+        },
+        {
+          "segment": 25,
+          "poses": 1,
+          "start_s": 75.714440192,
+          "end_s": 75.714440192,
+          "path_length_m": 0.0,
+          "end_displacement_m": 0.0
+        },
+        {
+          "segment": 26,
+          "poses": 4,
+          "start_s": 76.716395264,
+          "end_s": 76.816468992,
+          "path_length_m": 0.09987796313801585,
+          "end_displacement_m": 0.08095585257151829
+        },
+        {
+          "segment": 27,
+          "poses": 1,
+          "start_s": 77.817095936,
+          "end_s": 77.817095936,
+          "path_length_m": 0.0,
+          "end_displacement_m": 0.0
+        },
+        {
+          "segment": 28,
+          "poses": 1,
+          "start_s": 78.84997504,
+          "end_s": 78.84997504,
+          "path_length_m": 0.0,
+          "end_displacement_m": 0.0
+        },
+        {
+          "segment": 29,
+          "poses": 29,
+          "start_s": 79.882853888,
+          "end_s": 80.849090816,
+          "path_length_m": 0.5673777373168594,
+          "end_displacement_m": 0.33935517633003276
+        },
+        {
+          "segment": 30,
+          "poses": 121,
+          "start_s": 81.882275584,
+          "end_s": 85.887025152,
+          "path_length_m": 0.06937148245909869,
+          "end_displacement_m": 0.015096987628876395
+        }
+      ],
+      "accepted_fraction": 0.6413043478260869
+    },
+    "depth-icp": {
+      "accepted_poses": 2576,
+      "rejected_frames": 0,
+      "rejection_reasons": {},
+      "segments": [
+        {
+          "segment": 0,
+          "poses": 2576,
+          "start_s": 0.0,
+          "end_s": 85.887025152,
+          "path_length_m": 30.77294833096279,
+          "end_displacement_m": 1.7250122111989776
+        }
+      ],
+      "accepted_fraction": 1.0
+    },
+    "depth-point": {
+      "accepted_poses": 2576,
+      "rejected_frames": 0,
+      "rejection_reasons": {},
+      "segments": [
+        {
+          "segment": 0,
+          "poses": 2576,
+          "start_s": 0.0,
+          "end_s": 85.887025152,
+          "path_length_m": 29.5920269228876,
+          "end_displacement_m": 2.1138145662478203
+        }
+      ],
+      "accepted_fraction": 1.0
+    }
+  }
+}

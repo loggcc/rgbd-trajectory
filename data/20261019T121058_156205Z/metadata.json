@@ -1,0 +1,129 @@
+{
+  "streams": {
+    "depth": {
+      "width": 640,
+      "height": 480,
+      "fps": 30,
+      "format": "format.z16",
+      "fx": 389.1593017578125,
+      "fy": 389.1593017578125,
+      "ppx": 321.11297607421875,
+      "ppy": 244.80340576171875,
+      "distortion_model": "distortion.brown_conrady",
+      "distortion_coefficients": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "color": {
+      "width": 640,
+      "height": 480,
+      "fps": 30,
+      "format": "format.rgb8",
+      "fx": 604.6778564453125,
+      "fy": 604.3577270507812,
+      "ppx": 328.2245178222656,
+      "ppy": 249.2373504638672,
+      "distortion_model": "distortion.inverse_brown_conrady",
+      "distortion_coefficients": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "depth_to_color": {
+    "rotation_column_major": [
+      0.9999493956565857,
+      -0.008290667086839676,
+      -0.005702385678887367,
+      0.008304726332426071,
+      0.9999625086784363,
+      0.002446269616484642,
+      0.005681890528649092,
+      -0.0024935025721788406,
+      0.9999807476997375
+    ],
+    "translation_meters": [
+      0.014842195436358452,
+      7.761131564620882e-05,
+      0.00021915306570008397
+    ]
+  },
+  "depth_scale_meters": 0.0010000000474974513,
+  "schema_version": 1,
+  "storage": {
+    "rgb": {
+      "directory": "rgb",
+      "format": "PNG",
+      "channels": "RGB",
+      "bits_per_channel": 8,
+      "lossless": true
+    },
+    "depth": {
+      "directory": "depth",
+      "format": "PNG",
+      "channels": "grayscale",
+      "bits_per_channel": 16,
+      "sample_type": "unsigned integer",
+      "lossless": true,
+      "invalid_value": 0,
+      "meters_formula": "pixel_value * depth_scale_meters",
+      "aligned_to_rgb": false
+    },
+    "rgb_video": {
+      "file": "rgb.mp4",
+      "codec": "MPEG-4 Part 2 (mp4v)",
+      "fps": 30,
+      "lossless": false,
+      "timing": "Fixed FPS; actual frame times are in timestamps.csv."
+    },
+    "timestamps": "timestamps.csv",
+    "frame_lookup": "image_path is relative to this directory; frame_index and video_frame_index are zero-based."
+  },
+  "pyrealsense2_version": "2.56.5.9235",
+  "device": {
+    "name": "Intel RealSense D435I",
+    "serial": "337122074820",
+    "firmware": "5.13.0.55"
+  },
+  "timing_notes": {
+    "frame_timestamp_ms": "SDK timestamp; interpret using each row's timestamp_domain.",
+    "frame_utc": "Only available for global_time/system_time; PC clock accuracy applies.",
+    "host_received_utc": "PC callback receipt time, not exposure time.",
+    "sensor_timestamp_us": "Device-clock mid-exposure time when supplied by the camera.",
+    "frame_matching": "Separate RGB/depth clocks and counters; compare timestamps in a common domain."
+  },
+  "status": "complete",
+  "global_time_enabled": {
+    "0": true,
+    "1": true
+  },
+  "frame_counts": {
+    "color": 2578,
+    "depth": 2582
+  },
+  "frame_number_gaps": {
+    "color": 0,
+    "depth": 0
+  },
+  "timestamp_domains": {
+    "color": [
+      "global_time"
+    ],
+    "depth": [
+      "global_time"
+    ]
+  },
+  "started_unix_ns": 1792411858158078297,
+  "started_utc": "2026-10-19T12:10:58.158078297Z",
+  "discarded_queued_frames": 0,
+  "finished_utc": "2026-10-19T12:12:25.509896867Z",
+  "elapsed_seconds": 87.351868893,
+  "errors": []
+}

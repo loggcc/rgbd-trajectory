@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__ · Camera trajectory</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f7fa;color:#182535;font:15px system-ui,sans-serif}header{padding:22px 30px;background:white;border-bottom:1px solid #dae0e7}h1{font-size:24px;margin:0 0 8px}p{margin:6px 0;line-height:1.5;color:#586576}main{padding:20px 30px;max-width:1600px;margin:auto}.controls{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:12px 0}button,select{font:inherit;background:white;color:#182535;border:1px solid #b9c4d1;border-radius:6px;padding:7px 12px;cursor:pointer}label{cursor:pointer}input[type=range]{flex:1;min-width:180px}canvas{display:block;background:white;border:1px solid #dae0e7;border-radius:10px;width:100%;height:62vh;min-height:360px;touch-action:none}#legend{display:flex;gap:16px;flex-wrap:wrap}#status{font-variant-numeric:tabular-nums;line-height:1.7;margin:14px 0}.note{background:#fff7df;padding:12px 16px;border-radius:6px;color:#68521b}img{max-width:100%;background:white;border-radius:8px}a{color:#0072b2}details{margin:20px 0}footer{margin:20px 0;color:#586576}
+</style>
+<header><h1>Camera trajectory · __TITLE__</h1><p>RGB-D and depth-only estimates in meters. Drag to orbit, scroll to zoom. All data is embedded; this viewer works offline.</p></header>
+<main>
+<p class="note">These are local odometry estimates, without ground truth or loop closure. Agreement between methods does not prove accuracy. After tracking loss, each new segment starts at its own origin and cannot be joined to the previous segment.</p>
+<div class="controls" id="legend"></div>
+<div class="controls"><button id="play">Play</button><input id="time" type="range" min="0" step="0.01"><span id="clock"></span><label>Speed <select id="speed"><option>1</option><option selected>2</option><option>4</option></select>×</label><button id="reset">Fit view</button><button id="top">X–Z view</button><label>Segment <select id="segment"><option value="all">All (independent origins)</option></select></label><label><input id="orient" type="checkbox" checked> Camera axes</label></div>
+<canvas id="view" aria-label="Interactive camera trajectory plot"></canvas>
+<div id="status"></div>
+<details><summary>Static comparison and tracking diagnostics</summary><p>Axes follow the first depth optical frame: X right, Y down, Z forward. X–Z is not necessarily the floor plane because initial camera tilt is unknown.</p><a href="trajectory_comparison.png"><img src="trajectory_comparison.png" alt="Camera trajectory comparison"></a><a href="tracking_diagnostics.png"><img src="tracking_diagnostics.png" alt="Tracking diagnostic plots"></a></details>
+<footer>Downloads: <a href="summary.json">run summary</a> · <span id="downloads"></span><p>CSV includes tracking status, segment ID, translation and quaternion (qx, qy, qz, qw). NPZ contains 4×4 camera-to-segment matrices. TUM files are exported separately for each segment.</p></footer>
+</main>
+<script>
+const data=__DATA__;
+const $=id=>document.getElementById(id), canvas=$('view'), ctx=canvas.getContext('2d');
+const visible=new Set(data.map(d=>d.name));
+let yaw=-0.65,pitch=0.45,zoom=1,center=[0,0,0],extent=1,playing=false,previousTime=0,drag=null;
+const maxTime=Math.max(...data.map(d=>d.rows.at(-1).t));
+$('time').max=maxTime;$('time').value=maxTime;
+const maxSeg=Math.max(...data.flatMap(d=>d.rows.map(r=>r.segment)));
+for(let i=0;i<=maxSeg;i++){let o=document.createElement('option');o.value=i;o.textContent=i===0?'0 (shared start)':`${i} (local origin per method)`;$('segment').appendChild(o)}
+for(const d of data){
+ const label=document.createElement('label'),box=document.createElement('input');box.type='checkbox';box.checked=true;
+ box.onchange=()=>{box.checked?visible.add(d.name):visible.delete(d.name);fit();draw()};
+ label.append(box,document.createTextNode(' '+d.name));label.style.color=d.color;label.title=d.description;$('legend').appendChild(label);
+ const a=document.createElement('a');a.href=d.name+'.csv';a.textContent=d.name+' CSV';$('downloads').append(a,document.createTextNode(' · '));
+}
+function selected(r){return $('segment').value==='all'||r.segment===Number($('segment').value)}
+function display(p){return [p[0],p[2],-p[1]]}
+function fit(){
+ const pts=data.filter(d=>visible.has(d.name)).flatMap(d=>d.rows.filter(r=>r.p&&selected(r)).map(r=>display(r.p)));
+ if(!pts.length)return;
+ const lo=[Infinity,Infinity,Infinity],hi=[-Infinity,-Infinity,-Infinity];
+ for(const p of pts)for(let j=0;j<3;j++){lo[j]=Math.min(lo[j],p[j]);hi[j]=Math.max(hi[j],p[j])}
+ center=lo.map((x,j)=>(x+hi[j])/2);extent=Math.max(.2,...lo.map((x,j)=>hi[j]-x));zoom=1;
+}
+function project(p){
+ const q=display(p).map((x,j)=>x-center[j]);
+ const x=q[0]*Math.cos(yaw)-q[1]*Math.sin(yaw),dep=q[0]*Math.sin(yaw)+q[1]*Math.cos(yaw);
+ const y=q[2]*Math.cos(pitch)-dep*Math.sin(pitch),s=Math.min(canvas.clientWidth,canvas.clientHeight)*.72/extent*zoom;
+ return [canvas.clientWidth/2+x*s,canvas.clientHeight/2-y*s];
+}
+function line(a,b,color,width=1,dash=[]){ctx.beginPath();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.setLineDash(dash);ctx.moveTo(...project(a));ctx.lineTo(...project(b));ctx.stroke();ctx.setLineDash([])}
+function draw(){
+ const w=canvas.clientWidth,h=canvas.clientHeight,ratio=window.devicePixelRatio||1;
+ if(canvas.width!==Math.round(w*ratio)||canvas.height!==Math.round(h*ratio)){canvas.width=w*ratio;canvas.height=h*ratio}
+ ctx.setTransform(ratio,0,0,ratio,0,0);ctx.clearRect(0,0,w,h);
+ const t=Number($('time').value);$('clock').textContent=t.toFixed(2)+' / '+maxTime.toFixed(2)+' s';
+ const axisLength=10**Math.floor(Math.log10(extent/3));
+ const origin=[0,0,0];
+ for(const [p,c,label] of [[[axisLength,0,0],'#c83b3b','X right'],[[0,-axisLength,0],'#298947','−Y up'],[[0,0,axisLength],'#345ec7','Z forward']]){line(origin,p,c,2);const s=project(p);ctx.fillStyle=c;ctx.font='12px system-ui';ctx.fillText(label+' '+axisLength.toPrecision(2)+' m',s[0]+5,s[1]-5)}
+ const statuses=[];
+ for(const d of data){
+  if(!visible.has(d.name))continue;
+  let prev=null,last=null,latest=null;
+  for(const r of d.rows){
+   if(r.t>t)break;
+   if(!selected(r)){prev=null;continue}latest=r;
+   if(!r.p){prev=null;continue}
+   if(prev&&prev.segment===r.segment)line(prev.p,r.p,d.color,2,r.segment?[5,4]:[]);
+   prev=r;last=r;
+  }
+  if(last){
+   const p=project(last.p);ctx.beginPath();ctx.fillStyle=d.color;ctx.arc(...p,5,0,Math.PI*2);ctx.fill();
+   if($('orient').checked&&latest?.p){for(let j=0;j<3;j++){const end=last.p.map((x,i)=>x+last.R[i][j]*extent*.055);line(last.p,end,['#c83b3b','#298947','#345ec7'][j],2)}}
+  }
+  if(latest)statuses.push(`<span style="color:${d.color}">${d.name}</span>: ${latest.status} · segment ${latest.segment}`);
+ }
+ ctx.fillStyle='#586576';ctx.font='12px system-ui';ctx.fillText('Solid: segment 0 · Dashed: separate local segments · Gaps: rejected poses',16,h-16);
+ $('status').innerHTML=statuses.join(' &nbsp; | &nbsp; ');
+}
+canvas.addEventListener('pointerdown',e=>{drag=[e.clientX,e.clientY];canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener('pointermove',e=>{if(!drag)return;yaw+=(e.clientX-drag[0])*.008;pitch=Math.max(-1.57,Math.min(1.57,pitch+(e.clientY-drag[1])*.008));drag=[e.clientX,e.clientY];draw()});
+canvas.addEventListener('pointerup',()=>drag=null);canvas.addEventListener('pointercancel',()=>drag=null);
+canvas.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.max(.1,Math.min(20,zoom*Math.exp(-e.deltaY*.001)));draw()},{passive:false});
+$('reset').onclick=()=>{yaw=-.65;pitch=.45;fit();draw()};$('top').onclick=()=>{yaw=0;pitch=-Math.PI/2;draw()};
+$('time').oninput=draw;$('orient').onchange=draw;$('segment').onchange=()=>{fit();draw()};
+$('play').onclick=()=>{playing=!playing;if(playing&&Number($('time').value)>=maxTime)$('time').value=0;$('play').textContent=playing?'Pause':'Play'};
+function tick(now){if(playing&&previousTime){$('time').value=Math.min(maxTime,Number($('time').value)+(now-previousTime)/1000*Number($('speed').value));if(Number($('time').value)>=maxTime){playing=false;$('play').textContent='Play'}draw()}previousTime=now;requestAnimationFrame(tick)}
+window.addEventListener('resize',draw);fit();draw();requestAnimationFrame(tick);
+</script>
+</html>

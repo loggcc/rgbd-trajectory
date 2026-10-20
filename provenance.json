@@ -1,0 +1,40 @@
+{
+  "recording_id": "20261019T121058_156205Z",
+  "original_recording_directory": "/home/ariel/realsense_recordings/20261019T121058_156205Z",
+  "data_directory": "data/20261019T121058_156205Z",
+  "results_directory": "results/20261019T121058_156205Z",
+  "source_data_bytes": 1524149793,
+  "raw_frame_counts": {
+    "rgb": 2578,
+    "depth": 2582
+  },
+  "comparison_synchronized_pairs": 2576,
+  "estimation_inputs": [
+    "metadata.json",
+    "timestamps.csv",
+    "rgb/*.png",
+    "depth/*.png"
+  ],
+  "preview_only_not_used_for_estimation": [
+    "rgb.mp4"
+  ],
+  "copy_policy": "Independent files, no external symlinks. Raw recording and original result files are byte-for-byte copies.",
+  "code_changes": "Packaged estimator changes only the default recording path to data/RECORDING_ID and default output path to runs/RECORDING_ID. Algorithms and parameters are unchanged.",
+  "reproduction_command": "python estimate_trajectory.py data/20261019T121058_156205Z --methods all --output runs/comparison",
+  "result_provenance_note": "Historical absolute paths in the copied summary.json are retained as original-run provenance; the scripts do not depend on them.",
+  "original_scripts": {
+    "estimate_trajectory.py": {
+      "original_sha256": "270629b50886f6307f76822c4c6cb17e12b2297601642d7f66bee41e0533ee3a",
+      "packaged_sha256": "6d4384ff3b7ab7f9063e8dc68319f5c97b42d69f255565216bd3c6c923d0e2e5"
+    },
+    "test_estimate_trajectory.py": {
+      "original_sha256": "cf95881ad3de4d3f2c2e4c514e5c8b0e27bd2daddcf46f6397f12eccf8fdef1d",
+      "packaged_sha256": "cf95881ad3de4d3f2c2e4c514e5c8b0e27bd2daddcf46f6397f12eccf8fdef1d"
+    },
+    "trajectory_viewer.html": {
+      "original_sha256": "a34f2b70ab3252c4bb85b25a9b2bc825a7b687ed3e5425c5a52be230bc2e366e",
+      "packaged_sha256": "a34f2b70ab3252c4bb85b25a9b2bc825a7b687ed3e5425c5a52be230bc2e366e"
+    }
+  },
+  "python_version": "3.12.12"
+}
